@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MJ SMART APPS — Admin Panel</title>
+  <title>MJ Admin Panel</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
@@ -173,7 +173,7 @@
     .search input{flex:1;background:transparent;border:0;outline:none;color:var(--text-color)}
 
     /* Cards grid */
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
     .card{background:var(--card-bg);padding:24px;border-radius:var(--radius);border:1px solid var(--border-color);box-shadow:0 4px 16px var(--shadow-light);transition:transform .25s ease, box-shadow .25s ease; animation: fadeInUp 0.8s ease-out;}
     .card:hover{transform:translateY(-8px); box-shadow: 0 8px 24px rgba(0,0,0,0.12);}
     .card .kpi{font-size:36px;font-weight:700;color:var(--primary-color); margin-top: 8px;}
@@ -181,7 +181,7 @@
     .card .muted{font-size:14px; color: var(--muted-text);}
 
     /* Services cards */
-    .services{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .services{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
     .service-card{display:flex;flex-direction:column;gap:12px;padding:24px;border-radius:var(--radius);background:var(--card-bg);border:1px solid var(--border-color);box-shadow: 0 4px 12px var(--shadow-light);transition:transform .2s ease, box-shadow .2s ease;}
     .service-card:hover{transform:translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.1);}
     .service-card .icon{height:64px;width:64px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;background:var(--primary-color);color:#fff;font-size:28px}
@@ -192,7 +192,6 @@
     .table tbody td{padding:16px 12px;border-top:none; border-bottom:1px solid var(--border-color); background: var(--card-bg); transition: background-color 0.2s;}
     .table tbody tr:hover td {background-color: #f8f9fa;}
     .table tbody tr:first-child td { border-top: 1px solid var(--border-color); }
-    .table tbody td:first-child { border-top-left-radius: var(--radius); border-bottom-left-radius: var(--radius); }
     .table tbody td:last-child { border-top-right-radius: var(--radius); border-bottom-right-radius: var(--radius); }
     .btn{padding:10px 18px;border-radius:8px;border:0;cursor:pointer;font-weight:500;transition:all .2s ease}
     .btn.primary{background:var(--primary-color);color:#fff}
@@ -267,20 +266,120 @@
       box-shadow:0 12px 40px rgba(0,0,0,0.3);
       animation: scaleIn 0.3s;
     }
+    
+    /* New: Card layout for clients and messages */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .client-card, .message-card, .update-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px var(--shadow-light);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: transform 0.2s ease;
+    }
+    
+    .client-card:hover, .message-card:hover, .update-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    }
+    
+    .client-card .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .client-card h4 {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    
+    .client-card .image-gallery {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    
+    .client-card .image-gallery img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .message-card.read {
+      opacity: 0.6;
+    }
+
+    .message-card .card-content {
+      flex: 1;
+    }
+
+    .message-card h4 {
+      margin: 0 0 4px;
+    }
+
+    .message-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--muted-text);
+      white-space: pre-wrap;
+    }
+
+    .update-card .card-content {
+      flex: 1;
+    }
+    
+    .update-card h4 {
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+    }
+    
+    .update-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--muted-text);
+      white-space: pre-wrap;
+      max-height: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .update-card img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--radius);
+        margin-top: 8px;
+    }
 
     /* Responsive */
-    @media (max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)} .services{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:768px){
-      .container { grid-template-columns: 1fr; padding: 96px 16px 24px; }
+    @media (max-width:1200px){
+      .container { grid-template-columns: 1fr; }
       aside.sidebar { display: none; }
       header.app-header .hamburger { display: block; }
       header.app-header .brand { margin-right: auto; margin-left: 12px; }
       header.app-header .user-info { display: none; }
+      .search { max-width: 100%; }
+    }
+    
+    @media (max-width:768px){
       .grid, .services { grid-template-columns: 1fr; }
       .top-row{flex-direction:column;align-items:stretch}
     }
+    
     /* Hide drawer navigation bar on larger screens */
-    @media (min-width: 769px) {
+    @media (min-width: 1201px) {
       .drawer-nav, .drawer-overlay {
         display: none !important;
       }
@@ -378,14 +477,7 @@
 
         <div id="recent-clients" class="sub-view active">
           <h3 style="margin:24px 0 16px 0">Recent Clients</h3>
-          <div class="card" style="padding:16px;overflow:auto">
-            <table class="table" id="recentClientsTable">
-              <thead>
-                <tr><th>Name</th><th>Email</th><th>Phone</th><th>Service</th><th>Action</th></tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+          <div class="card-grid" id="recentClientsGrid"></div>
         </div>
       </section>
 
@@ -398,14 +490,7 @@
           </div>
         </div>
 
-        <div class="card" style="overflow-x:auto">
-          <table class="table" id="clientsTable">
-            <thead>
-              <tr><th>Name</th><th>Email</th><th>Phone</th><th>Service</th><th>Notes</th><th>Action</th></tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
+        <div class="card-grid" id="clientsGrid"></div>
       </section>
 
       <section id="services" class="view" style="display:none">
@@ -429,14 +514,7 @@
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
           <h2 style="margin:0">Messages</h2>
         </div>
-        <div class="card" style="overflow-x:auto">
-          <table class="table" id="messagesTable">
-            <thead>
-              <tr><th>Name</th><th>Email</th><th>WhatsApp</th><th>Message</th><th>Status</th><th>Actions</th></tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
+        <div class="card-grid" id="messagesGrid"></div>
       </section>
 
       <section id="updates" class="view" style="display:none">
@@ -448,14 +526,7 @@
           </div>
         </div>
 
-        <div class="card" style="overflow-x:auto">
-          <table class="table" id="updatesTable">
-            <thead>
-              <tr><th>Type</th><th>Content</th><th>Date</th><th>Actions</th></tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
+        <div class="card-grid" id="updatesGrid"></div>
       </section>
 
     </main>
@@ -662,8 +733,8 @@
 
     /* ------------------ Clients CRUD ------------------ */
     async function fetchClients(){
-      const tbody = document.querySelector('#clientsTable tbody');
-      tbody.innerHTML = '<tr><td colspan="6" class="muted">Loading...</td></tr>';
+      const grid = document.getElementById('clientsGrid');
+      grid.innerHTML = '<div class="muted">Loading clients...</div>';
       try{
         // realtime listener
         onSnapshot(clientsCol, snapshot=>{
@@ -681,37 +752,76 @@
         });
       }catch(err){
         console.error(err);
-        tbody.innerHTML = '<tr><td colspan="6">Error loading clients</td></tr>';
+        grid.innerHTML = '<div class="muted">Error loading clients</div>';
         showPopup('Error loading clients: ' + err.message);
       }
     }
 
     function renderRecentClients(list){
-      const tb = document.querySelector('#recentClientsTable tbody'); tb.innerHTML='';
+      const grid = document.getElementById('recentClientsGrid');
+      grid.innerHTML='';
+      if(!list.length) { grid.innerHTML='<div class="muted">No recent clients yet</div>'; return; }
       list.forEach(c=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${c.name}</td><td>${c.email||'-'}</td><td>${c.phone||'-'}</td><td>${c.service||'-'}</td><td><button class="btn ghost" data-id="${c.id}" data-action="view">View</button></td>`;
-        tb.appendChild(tr);
+        const card = document.createElement('div');
+        card.className = 'client-card';
+        card.dataset.id = c.id;
+        const imagesHtml = (c.images || []).length > 0
+          ? `<div class="image-gallery">${c.images.map(url => `<img src="${escapeHtml(url)}" alt="Client Image" />`).join('')}</div>`
+          : '<div class="muted">No images available</div>';
+
+        card.innerHTML = `
+          <div class="card-header">
+            <div>
+              <h4>${escapeHtml(c.name)}</h4>
+              <div class="muted">${escapeHtml(c.service || 'No service specified')}</div>
+            </div>
+            <div class="actions">
+              <button class="btn ghost" data-id="${c.id}" data-action="view-client">View</button>
+            </div>
+          </div>
+          ${imagesHtml}
+          <div style="font-size:0.9rem;">
+            <div><span style="font-weight:600">Email:</span> ${escapeHtml(c.email || '-')}</div>
+            <div><span style="font-weight:600">Phone:</span> ${escapeHtml(c.phone || '-')}</div>
+          </div>
+          <div class="muted" style="white-space:pre-wrap;">${escapeHtml(c.notes || 'No notes.')}</div>
+        `;
+        grid.appendChild(card);
       });
     }
 
     function renderClients(list){
-      const tbody = document.querySelector('#clientsTable tbody');
-      tbody.innerHTML='';
-      if(!list.length) { tbody.innerHTML='<tr><td colspan="6" class="muted">No clients yet</td></tr>'; return; }
+      const grid = document.getElementById('clientsGrid');
+      grid.innerHTML='';
+      if(!list.length) { grid.innerHTML='<div class="muted">No clients yet</div>'; return; }
       list.forEach(c=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${c.name}</td>
-          <td>${c.email||'-'}</td>
-          <td>${c.phone||'-'}</td>
-          <td>${c.service||'-'}</td>
-          <td>${c.notes? c.notes.substring(0,60): '-' }</td>
-          <td class="actions">
-            <button class="btn ghost" data-id="${c.id}" data-action="edit">Edit</button>
-            <button class="btn ghost" data-id="${c.id}" data-action="delete">Delete</button>
-          </td>`;
-        tbody.appendChild(tr);
+        const card = document.createElement('div');
+        card.className = 'client-card';
+        card.dataset.id = c.id;
+
+        const imagesHtml = (c.images || []).length > 0
+          ? `<div class="image-gallery">${c.images.map(url => `<img src="${escapeHtml(url)}" alt="Client Image" />`).join('')}</div>`
+          : '<div class="muted">No images available</div>';
+
+        card.innerHTML = `
+          <div class="card-header">
+            <div>
+              <h4>${escapeHtml(c.name)}</h4>
+              <div class="muted">${escapeHtml(c.service || 'No service specified')}</div>
+            </div>
+            <div class="actions">
+              <button class="btn ghost" data-id="${c.id}" data-action="edit-client">Edit</button>
+              <button class="btn ghost" data-id="${c.id}" data-action="delete-client">Delete</button>
+            </div>
+          </div>
+          ${imagesHtml}
+          <div style="font-size:0.9rem;">
+            <div><span style="font-weight:600">Email:</span> ${escapeHtml(c.email || '-')}</div>
+            <div><span style="font-weight:600">Phone:</span> ${escapeHtml(c.phone || '-')}</div>
+          </div>
+          <div class="muted" style="white-space:pre-wrap;">${escapeHtml(c.notes || 'No notes.')}</div>
+        `;
+        grid.appendChild(card);
       });
     }
 
@@ -736,6 +846,10 @@
               <option value='Desktop Software'>Desktop Software</option>
             </select>
           </div>
+          <div class='field'>
+            <label>Image URLs (one per line)</label>
+            <textarea id='clientImages' rows='5' placeholder='Enter image URLs here...'>${data?.images?.join('\n') || ''}</textarea>
+          </div>
           <textarea id='clientNotes' rows='3' placeholder='Notes'>${data?escapeHtml(data.notes||''):''}</textarea>
           <div style='display:flex;gap:8px;justify-content:flex-end;margin-top:8px'>
             <button class='btn ghost' id='cancelModal'>Cancel</button>
@@ -752,12 +866,15 @@
       document.getElementById('saveClient').addEventListener('click', async ()=>{
         const name = document.getElementById('clientName').value.trim();
         if(!name){showPopup('Name is required');return}
+        const imagesText = document.getElementById('clientImages').value.trim();
+        const imagesArray = imagesText.split('\n').filter(url => url.trim() !== '');
         const payload = {
           name,
           email: document.getElementById('clientEmail').value.trim(),
           phone: document.getElementById('clientPhone').value.trim(),
           service: document.getElementById('clientService').value,
           notes: document.getElementById('clientNotes').value.trim(),
+          images: imagesArray,
           createdAt: new Date().toISOString()
         };
         showLoader();
@@ -779,28 +896,38 @@
       });
     }
 
-    // delegate client table actions
-    document.querySelector('#clientsTable tbody').addEventListener('click', async (ev)=>{
-      const btn = ev.target.closest('button'); if(!btn) return;
-      const id = btn.dataset.id; const action = btn.dataset.action;
-      if(action==='edit'){
+    // delegate client grid actions
+    document.getElementById('clientsGrid').addEventListener('click', async (ev) => {
+      const btn = ev.target.closest('button');
+      if (!btn) return;
+      const id = btn.dataset.id;
+      const action = btn.dataset.action;
+
+      if (action === 'edit-client') {
         showLoader();
-        try{
-          const snap = await getDocs(clientsCol);
-          const docs = [];
-          snap.forEach(d=>docs.push({id:d.id,...d.data()}));
-          const found = docs.find(x=>x.id===id);
-          if(found) openAddClient(found);
-        }catch(e){
+        try {
+          const docSnap = await getDocs(query(clientsCol, where(documentId(), '==', id)));
+          if (!docSnap.empty) {
+            openAddClient({ id, ...docSnap.docs[0].data() });
+          }
+        } catch (e) {
           console.error(e);
           showPopup('Error fetching client data.');
-        }finally{
+        } finally {
           hideLoader();
         }
-      }else if(action==='delete'){
-        if(confirm('Delete this client?')){
+      } else if (action === 'delete-client') {
+        if (confirm('Delete this client?')) {
           showLoader();
-          try{ await deleteDoc(doc(db,'clients',id)); showPopup('Client deleted successfully!'); }catch(e){console.error(e);showPopup('Delete failed');} finally{ hideLoader();}
+          try {
+            await deleteDoc(doc(db, 'clients', id));
+            showPopup('Client deleted successfully!');
+          } catch (e) {
+            console.error(e);
+            showPopup('Delete failed');
+          } finally {
+            hideLoader();
+          }
         }
       }
     });
@@ -956,8 +1083,8 @@
 
     /* ------------------ Messages CRUD ------------------ */
     async function fetchMessages(){
-      const tbody = document.querySelector('#messagesTable tbody');
-      tbody.innerHTML = '<tr><td colspan="6" class="muted">Loading messages...</td></tr>';
+      const grid = document.getElementById('messagesGrid');
+      grid.innerHTML = '<div class="muted">Loading messages...</div>';
       try {
         onSnapshot(messagesCol, snapshot => {
           const messages = [];
@@ -973,39 +1100,43 @@
         });
       } catch(e) {
         console.error(e);
-        tbody.innerHTML = '<tr><td colspan="6" class="muted">Error loading messages</td></tr>';
+        grid.innerHTML = '<div class="muted">Error loading messages</div>';
         showPopup('Error loading messages: ' + e.message);
       }
     }
 
     function renderMessages(list) {
-      const tbody = document.querySelector('#messagesTable tbody');
-      tbody.innerHTML = '';
-      if(!list.length) { tbody.innerHTML='<tr><td colspan="6" class="muted">No messages yet</td></tr>'; return; }
+      const grid = document.getElementById('messagesGrid');
+      grid.innerHTML = '';
+      if(!list.length) { grid.innerHTML='<div class="muted">No messages yet</div>'; return; }
       list.sort((a,b) => (b.createdAt?.toDate() || 0) - (a.createdAt?.toDate() || 0));
       list.forEach(m => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${escapeHtml(m.name||'-')}</td>
-          <td>${escapeHtml(m.email||'-')}</td>
-          <td>${escapeHtml(m.whatsapp||'-')}</td>
-          <td style="white-space:nowrap;max-width:300px;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(m.message||'-')}</td>
-          <td>${escapeHtml(m.status||'unread')}</td>
-          <td class="actions">
+        const card = document.createElement('div');
+        card.className = `message-card ${m.status === 'read' ? 'read' : ''}`;
+        card.dataset.id = m.id;
+        card.innerHTML = `
+          <div class="card-content">
+            <h4>${escapeHtml(m.name || 'Anonymous')}</h4>
+            <div class="muted" style="display:flex;justify-content:space-between;margin-bottom:8px">
+                <span>${escapeHtml(m.email || '-')}</span>
+                <span>${m.createdAt?.toDate()?.toLocaleString() || 'N/A'}</span>
+            </div>
+            <p>${escapeHtml(m.message || '-')}</p>
+          </div>
+          <div class="actions">
             <button class="btn ghost" data-id="${m.id}" data-action="mark-read">Mark as Read</button>
             <button class="btn ghost" data-id="${m.id}" data-action="delete-message">Delete</button>
-          </td>
+          </div>
         `;
         if(m.status === 'read') {
-          tr.style.opacity = '0.6';
-          tr.querySelector('[data-action="mark-read"]').style.display = 'none';
+          card.querySelector('[data-action="mark-read"]').style.display = 'none';
         }
-        tbody.appendChild(tr);
+        grid.appendChild(card);
       });
     }
 
-    // delegate message table actions
-    document.querySelector('#messagesTable tbody').addEventListener('click', async (ev) => {
+    // delegate message grid actions
+    document.getElementById('messagesGrid').addEventListener('click', async (ev) => {
       const btn = ev.target.closest('button');
       if(!btn) return;
       const id = btn.dataset.id;
@@ -1037,8 +1168,8 @@
 
     /* ------------------ Updates CRUD ------------------ */
     async function fetchUpdates(){
-      const tbody = document.querySelector('#updatesTable tbody');
-      tbody.innerHTML = '<tr><td colspan="4" class="muted">Loading updates...</td></tr>';
+      const grid = document.getElementById('updatesGrid');
+      grid.innerHTML = '<div class="muted">Loading updates...</div>';
       try {
         onSnapshot(query(updatesCol, orderBy('createdAt', 'desc')), snapshot => {
           const updates = [];
@@ -1050,30 +1181,39 @@
         });
       } catch(e) {
         console.error(e);
-        tbody.innerHTML = '<tr><td colspan="4" class="muted">Error loading updates</td></tr>';
+        grid.innerHTML = '<div class="muted">Error loading updates</div>';
         showPopup('Error loading updates: ' + e.message);
       }
     }
 
     function renderUpdates(list) {
-      const tbody = document.querySelector('#updatesTable tbody');
-      tbody.innerHTML = '';
-      if(!list.length) { tbody.innerHTML='<tr><td colspan="4" class="muted">No updates yet</td></tr>'; return; }
+      const grid = document.getElementById('updatesGrid');
+      grid.innerHTML = '';
+      if(!list.length) { grid.innerHTML='<div class="muted">No updates yet</div>'; return; }
       list.forEach(u => {
-        const tr = document.createElement('tr');
-        let contentDisplay = u.type === 'text' ? escapeHtml(u.content).substring(0, 100) + '...' : escapeHtml(u.url).substring(0, 100) + '...';
-        const date = u.createdAt ? new Date(u.createdAt.toDate()).toLocaleString() : 'N/A';
-        tr.innerHTML = `
-          <td>${u.type}</td>
-          <td>${contentDisplay}</td>
-          <td>${date}</td>
-          <td class="actions">
-            <button class="btn ghost" data-id="${u.id}" data-action="view-update">View</button>
+        const card = document.createElement('div');
+        card.className = `update-card`;
+        card.dataset.id = u.id;
+        let contentHtml = '';
+        if (u.type === 'text') {
+            contentHtml = `<p>${escapeHtml(u.content)}</p>`;
+        } else if (u.type === 'image') {
+            contentHtml = `<img src="${escapeHtml(u.url)}" alt="Update Image" />`;
+        }
+        const date = u.createdAt ? u.createdAt.toDate().toLocaleString() : 'N/A';
+        
+        card.innerHTML = `
+          <div class="card-content">
+              <h4>${u.type === 'text' ? 'Text Update' : 'Image Update'}</h4>
+              <div class="muted">${date}</div>
+              ${contentHtml}
+          </div>
+          <div class="actions">
             <button class="btn ghost" data-id="${u.id}" data-action="edit-update">Edit</button>
             <button class="btn ghost" data-id="${u.id}" data-action="delete-update">Delete</button>
-          </td>
+          </div>
         `;
-        tbody.appendChild(tr);
+        grid.appendChild(card);
       });
     }
 
@@ -1139,34 +1279,14 @@
     });
 
     // delegate updates table actions
-    document.querySelector('#updatesTable tbody').addEventListener('click', async (ev) => {
+    document.getElementById('updatesGrid').addEventListener('click', async (ev) => {
       const btn = ev.target.closest('button');
       if(!btn) return;
       const id = btn.dataset.id;
       const action = btn.dataset.action;
       const docRef = doc(db, 'updates', id);
       showLoader();
-      if (action === 'view-update') {
-          try {
-              const docSnap = await getDocs(query(updatesCol, where(documentId(), '==', id)));
-              if (!docSnap.empty) {
-                  const data = docSnap.docs[0].data();
-                  if (data.type === 'text') {
-                      showPopup('Text Content: \n\n' + data.content);
-                  } else if (data.type === 'image') {
-                      openModal(`<div style="display:flex;flex-direction:column;gap:12px;text-align:center;">
-                                    <h3>Image Update</h3>
-                                    <img src="${data.url}" style="max-width:100%;height:auto;border-radius:var(--radius);" />
-                                    <button class='btn ghost' id='closeModal'>Close</button>
-                                  </div>`);
-                      document.getElementById('closeModal').addEventListener('click', closeModal);
-                  }
-              }
-          } catch(e) {
-              console.error(e);
-              showPopup('Failed to view update.');
-          }
-      } else if(action === 'edit-update') {
+      if(action === 'edit-update') {
           try {
               const docSnap = await getDocs(query(updatesCol, where(documentId(), '==', id)));
               if (!docSnap.empty) {
