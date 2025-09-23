@@ -165,7 +165,81 @@
     .card:hover {
         animation: pulse 1s infinite;
     }
-
+    
+    /* New styles for clients section */
+    .client-scroll-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 20px;
+      padding: 20px 0;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .client-scroll-container::-webkit-scrollbar {
+      display: none;
+    }
+    .client-card {
+      flex: 0 0 auto;
+      width: 280px;
+      height: 350px;
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: 0 4px 12px var(--shadow-light);
+      position: relative;
+      overflow: hidden;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      color: #fff;
+      transition: transform 0.3s ease;
+    }
+    .client-card:hover {
+      transform: translateY(-8px);
+    }
+    .client-card .image-gallery {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      overflow: hidden;
+    }
+    .client-card .image-gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 1s ease-in-out;
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .client-card .image-gallery img.active {
+      opacity: 1;
+    }
+    .client-card .client-info {
+      position: relative;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      padding: 20px;
+      z-index: 10;
+      text-align: left;
+    }
+    .client-card .client-info h4 {
+      margin: 0;
+      color: #fff;
+      font-size: 1.5rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .client-card .client-info p {
+      margin: 5px 0 0;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.8);
+    }
+    
     @media(max-width:768px){
       header .hamburger { display:block; }
       .services, .pricing { grid-template-columns:1fr; }
@@ -188,6 +262,7 @@
     <nav class="menu">
       <div class="item" data-target="hero-section"><i class="ri-home-line"></i> Home</div>
       <div class="item" data-target="carousel"><i class="ri-image-line"></i> Design</div>
+      <div class="item" data-target="clients-section"><i class="ri-team-line"></i> Clients</div>
       <div class="item" data-target="services"><i class="ri-service-line"></i> Services</div>
       <div class="item" data-target="pricing"><i class="ri-price-tag-3-line"></i> Pricing</div>
       <div class="item" data-target="contact"><i class="ri-mail-line"></i> Contact</div>
@@ -203,6 +278,11 @@
     <section id="carousel">
       <h2>UI & UX Design</h2>
       <div class="carousel" id="carouselContent"></div>
+    </section>
+
+    <section id="clients-section">
+      <h2>Our Clients</h2>
+      <div class="client-scroll-container" id="clientsGrid"></div>
     </section>
 
     <section id="services">
@@ -244,6 +324,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    const clientsCol = collection(db, "clients");
     const servicesCol = collection(db, "services");
     const pricingCol = collection(db, "pricing");
     const updatesCol = collection(db, "updates");
@@ -302,6 +383,49 @@
         index = (index + 1) % slides.length;
         slides[index].classList.add("active");
       }, 4000);
+    }
+
+    function renderClients(clients) {
+      const grid = document.getElementById("clientsGrid");
+      grid.innerHTML = "";
+      if (!clients.length) {
+        grid.innerHTML = "<p class='muted'>No clients to display.</p>";
+        return;
+      }
+
+      clients.forEach(client => {
+        const card = document.createElement("div");
+        card.className = "client-card";
+        const hasImages = client.images && client.images.length > 0;
+        let imagesHtml = '';
+        if (hasImages) {
+          imagesHtml = `
+            <div class="image-gallery">
+              ${client.images.map((url, i) => `<img src="${url}" alt="Client image" class="${i === 0 ? 'active' : ''}">`).join('')}
+            </div>
+          `;
+          
+          if (client.images.length > 1) {
+            let index = 0;
+            setInterval(() => {
+              const slides = card.querySelectorAll("img");
+              if (slides.length < 2) return;
+              slides[index].classList.remove("active");
+              index = (index + 1) % slides.length;
+              slides[index].classList.add("active");
+            }, 5000 + Math.random() * 2000); // Randomize interval slightly
+          }
+        }
+
+        card.innerHTML = `
+          ${imagesHtml}
+          <div class="client-info">
+            <h4>${client.name}</h4>
+            <p>${client.service || 'No service specified'}</p>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
     }
 
     function renderServices(services) {
@@ -367,6 +491,12 @@
       renderCarousel(images);
     });
 
+    onSnapshot(clientsCol, snap => {
+      const clients = [];
+      snap.forEach(d => clients.push(d.data()));
+      renderClients(clients);
+    });
+
     onSnapshot(servicesCol, snap => {
       const services = [];
       snap.forEach(d => services.push(d.data()));
@@ -423,5 +553,4 @@
     });
   </script>
 </body>
-
 </html>
